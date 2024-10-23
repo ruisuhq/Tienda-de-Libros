@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.volumeInfo.title }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <h1><a href="{% url 'book_list' %}" class="navbar-brand">Mi tiendita de libros </a></h1>
+            <ul class="nav-links">
+                <li><a href="#" class="navbar-icon">Página Principal</a></li>
+                <li><a href="#" class="navbar-icon">Categorías</a></li>
+                <li><a href="#" class="navbar-icon">Acerca de nosotros</a></li>
+                <li><a href="#" class="navbar-icon">
+                        <i class="bi bi-cart-fill"></i>
+                    </a></li>
+                <li><a href="#" class="navbar-icon">
+                        <i class="bi bi-person-circle"></i>
+                    </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="book-container">
+        <a href="{% url 'book_list' %}" class="btn btn-secondary">← Volver a la página principal</a>
+        <div class="book-details">
+            <div class="book-image">
+                <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="{{ book.volumeInfo.title }}">
+            </div>
+            <div class="book-info">
+                <h2>{{ book.volumeInfo.title }}</h2>
+                <p>{{ book.volumeInfo.description }}</p>
+                <p><strong>Autores:</strong> {{ book.volumeInfo.authors|join:", " }}</p>
+                <p><strong>Fecha de publicación:</strong> {{ book.volumeInfo.publishedDate }}</p>
+                <p><strong>Categoría:</strong> {{ book.volumeInfo.categories|join:", " }}</p>
+                <p><strong>Cantidad de páginas:</strong> {{ book.volumeInfo.pageCount }}</p>
+
+                <!-- Botón para añadir al carrito -->
+                <form method="post" action="{% url 'add_to_cart' book.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Añadir al carrito</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
