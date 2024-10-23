@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %} <!-- Cargar etiquetas de archivos estáticos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookstore</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">MyBookStore</h1>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <div class="container">
+            <form method="GET" action="{% url 'book_list' %}">
+                <input type="text" name="q" placeholder="Search for books..." value="{{ query }}">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Book List -->
+    <div class="book-list">
+        <div class="container grid">
+            {% if books %}
+            {% for book in books %}
+            <div class="book-item">
+                <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="Book cover">
+                <h3>{{ book.volumeInfo.title }}</h3>
+                <p>Author: {{ book.volumeInfo.authors|join:", " }}</p>
+                <p>Pages: {{ book.volumeInfo.pageCount }}</p>
+                <p>Published: {{ book.volumeInfo.publishedDate }}</p>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>No books found. Try searching for something else!</p>
+            {% endif %}
+        </div>
+    </div>
+
+</body>
+
+</html>
