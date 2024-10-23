@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookstore',
+    
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -116,6 +116,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+AUTH_USER_MODEL = 'bookstore.UserProfile'
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]  # Ruta a tu carpeta static
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'  # Ruta donde se almacenarán las fotos de perfil
+
+# Configurar la URL de redireccionamiento al login
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'profile'  # Redirigir al perfil después de iniciar sesión
+LOGOUT_REDIRECT_URL = 'login'  # Redirigir al login después de cerrar sesión
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
