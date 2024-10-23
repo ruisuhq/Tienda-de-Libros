@@ -5,20 +5,26 @@
     {% load static %} <!-- Cargar etiquetas de archivos estáticos -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookstore</title>
+    <title>Tienda de libros</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
-
     <!-- Navbar -->
     <nav class="navbar">
         <div class="container">
-            <h1 class="logo">MyBookStore</h1>
+            <h1><a href="{% url 'book_list' %}" class="navbar-brand">Tienda de libros </a></h1>
             <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Categories</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="#" class="navbar-icon">Página Principal</a></li>
+                <li><a href="#" class="navbar-icon">Categorías</a></li>
+                <li><a href="#" class="navbar-icon">Acerca de nosotros</a></li>
+                <li><a href="#" class="navbar-icon">
+                    <i class="bi bi-cart-fill"></i>
+                </a></li>
+                <li><a href="#" class="navbar-icon">
+                    <i class="bi bi-person-circle"></i>
+                </a></li>
             </ul>
         </div>
     </nav>
@@ -27,31 +33,31 @@
     <div class="search-bar">
         <div class="container">
             <form method="GET" action="{% url 'book_list' %}">
-                <input type="text" name="q" placeholder="Search for books..." value="{{ query }}">
-                <button type="submit">Search</button>
+                <input type="text" name="q" placeholder="Search for books..." value="{{ request.GET.q }}">
+                <button type="submit">Busca un libro</button>
             </form>
         </div>
     </div>
-
-    <!-- Book List -->
-    <div class="book-list">
-        <div class="container grid">
-            {% if books %}
+    
+    <div class="container">
+        <h1>Libros disponibles</h1>
+        <div class="book-list">
             {% for book in books %}
-            <div class="book-item">
-                <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="Book cover">
-                <h3>{{ book.volumeInfo.title }}</h3>
-                <p>Author: {{ book.volumeInfo.authors|join:", " }}</p>
-                <p>Pages: {{ book.volumeInfo.pageCount }}</p>
-                <p>Published: {{ book.volumeInfo.publishedDate }}</p>
-            </div>
+                <div class="book-card">
+                    <!-- Cada cuadro de libro es un enlace a la página de detalles del libro -->
+                    <a href="{% url 'book_detail' book.id %}" class="book-link">
+                        <div class="book-image">
+                            <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" alt="{{ book.volumeInfo.title }}">
+                        </div>
+                        <div class="book-info">
+                            <h3>{{ book.volumeInfo.title }}</h3>
+                            <p>{{ book.volumeInfo.authors|join:", " }}</p>
+                        </div>
+                    </a>
+                </div>
             {% endfor %}
-            {% else %}
-            <p>No books found. Try searching for something else!</p>
-            {% endif %}
         </div>
     </div>
-
 </body>
 
 </html>
